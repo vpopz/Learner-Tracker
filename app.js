@@ -19,7 +19,7 @@ Mongoose.connect("mongodb+srv://vaisakh1996v:1996@learnertracker.gwoi5s2.mongodb
 //to post learner
 
 
-app.post('/postData', (req,res)=>{
+app.post('/api/postData', (req,res)=>{
     let data =  new learnerModel(req.body)
     JWT.verify(req.body.token,"tracker",
     (error,decoded)=>{
@@ -38,7 +38,7 @@ app.post('/postData', (req,res)=>{
 
 
 // to view learner
-app.post('/viewData', async (req, res)=>{
+app.post('/api/viewData', async (req, res)=>{
     try {
         let data = await learnerModel.find();
         JWT.verify(req.body.token, "tracker", (error, decoded) => {
@@ -57,7 +57,7 @@ app.post('/viewData', async (req, res)=>{
 
 
 //to delete learner
-app.post('/deleteData', async (req,res)=>{
+app.post('/api/deleteData', async (req,res)=>{
     try {
         const decoded = JWT.verify(req.body.token, 'tracker');
         if (!decoded || !decoded.email) {
@@ -77,7 +77,7 @@ app.post('/deleteData', async (req,res)=>{
 });
 
 // to update learner
-app.post('/updateData/:id',async(req,res)=>{
+app.post('/api/updateData/:id',async(req,res)=>{
     try {
         let data = await learnerModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
         console.log("TOKEN : " + req.body.token);
@@ -99,7 +99,7 @@ app.post('/updateData/:id',async(req,res)=>{
 
 // login
 
-app.post('/login',async(req,res)=>{
+app.post('/api/login',async(req,res)=>{
 
     let email = req.body.email
     let password = req.body.password
@@ -138,7 +138,7 @@ app.post('/login',async(req,res)=>{
 // only for TESTING !!!!!!
 
 //signup
-app.post('/signup',async(req,res)=>{
+app.post('/api/signup',async(req,res)=>{
     let data = await new userModel(req.body)
     JWT.verify(req.body.token,"tracker",
     (error,decoded)=>{
@@ -155,7 +155,7 @@ app.post('/signup',async(req,res)=>{
 
 // to view data for admin
 
-app.post('/showUser', async (req, res) => {
+app.post('/api/showUser', async (req, res) => {
     try {
       let data = await userModel.find();
       JWT.verify(req.body.token, "tracker", (error, decoded) => {
@@ -174,7 +174,7 @@ app.post('/showUser', async (req, res) => {
 
 // to add users
 
-app.post('/enterUser', (req,res)=>{
+app.post('/api/enterUser', (req,res)=>{
     let data =  new userModel(req.body)
     JWT.verify(req.body.token,"tracker",
     (error,decoded)=>{
@@ -192,7 +192,7 @@ app.post('/enterUser', (req,res)=>{
 
 // to delete user
 
-app.post('/deleteUser', async (req, res) => {
+app.post('/api/deleteUser', async (req, res) => {
     try {
       // Verify JWT token
       const decoded = JWT.verify(req.body.token, 'tracker');
@@ -225,7 +225,7 @@ app.post('/deleteUser', async (req, res) => {
   });
 
 
-app.post('/updateUser/:id', async (req, res) => {
+app.post('/api/updateUser/:id', async (req, res) => {
     try {
       let data = await userModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
       console.log("TOKEN : " + req.body.token);
@@ -247,7 +247,7 @@ app.post('/updateUser/:id', async (req, res) => {
   
   
 // to read CSV file
-app.post('/postCsv', async (req, res) => {
+app.post('/api/postCsv', async (req, res) => {
   console.log(req.body)
   try {
     // Loop through the data array
